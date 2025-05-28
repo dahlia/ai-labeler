@@ -29,6 +29,7 @@ def run_label_workflow_from_env() -> list[str]:
         github_output=os.getenv("GITHUB_OUTPUT"),
         include_repo_labels=os.getenv("INPUT_INCLUDE-REPO-LABELS", "true").lower()
         == "true",
+        llm_model=os.getenv("CONTROLFLOW_LLM_MODEL"),
     )
 
 
@@ -42,6 +43,7 @@ def run_label_workflow(
     dry_run: bool = False,
     github_output: str | None = None,
     include_repo_labels: bool = True,
+    llm_model: str | None = None,
 ) -> list[str]:
     """Main workflow function that accepts explicit configuration"""
 
@@ -99,6 +101,7 @@ def run_label_workflow(
         labels=available_labels,
         instructions=config.instructions,
         context_files=config.load_context_files(repo_root_path=github_workspace),
+        llm_model=llm_model,
     )
 
     # Apply the labels
